@@ -1,6 +1,6 @@
 # Aura Event Rentals
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/EagleSalute/aura-event-rentals-premium-event-equipment-rental-platform)
 
 A full-stack chat application built on Cloudflare Workers, featuring real-time chat boards, user management, and message persistence using Durable Objects. This production-ready template includes a modern React frontend with shadcn/ui components, Tailwind CSS, and TanStack Query for seamless data fetching.
 
@@ -111,7 +111,7 @@ Seed data (users/chats) auto-loads on first request.
    npx wrangler deploy
    ```
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/EagleSalute/aura-event-rentals-premium-event-equipment-rental-platform)
 
 **Custom Domain**: Update `wrangler.jsonc` assets and deploy.
 
