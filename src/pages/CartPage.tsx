@@ -24,10 +24,10 @@ const inquirySchema = z.object({
 });
 type InquiryForm = z.infer<typeof inquirySchema>;
 export function CartPage() {
-  const items = useCartStore((s) => s.items);
-  const removeItem = useCartStore((s) => s.removeItem);
-  const updateQuantity = useCartStore((s) => s.updateQuantity);
-  const clearCart = useCartStore((s) => s.clearCart);
+  const items = useCartStore(s => s.items);
+  const removeItem = useCartStore(s => s.removeItem);
+  const updateQuantity = useCartStore(s => s.updateQuantity);
+  const clearCart = useCartStore(s => s.clearCart);
   const [isSuccess, setIsSuccess] = useState(false);
   const total = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<InquiryForm>({

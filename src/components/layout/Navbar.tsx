@@ -8,13 +8,19 @@ import { Badge } from '@/components/ui/badge';
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
   const location = useLocation();
   const items = useCartStore((s) => s.items);
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleHeroScroll = () => setHasScrolledPastHero(window.scrollY > 100);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleHeroScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleHeroScroll);
+    };
   }, []);
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -91,13 +97,16 @@ export function Navbar() {
         </div>
       </div>
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b px-4 py-6 space-y-4">
+        <div className="md:hidden bg-white/95 backdrop-blur-lg border-b px-4 py-8 space-y-4 animate-in fade-in slide-in-from-top-5 duration-300">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               to={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block text-lg font-medium text-brand-slate"
+              className={cn(
+                "block text-xl font-display font-bold py-2 border-b border-brand-slate/5 transition-colors",
+                location.pathname === link.href ? "text-brand-amber" : "text-brand-slate"
+              )}
             >
               {link.name}
             </Link>
