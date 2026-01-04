@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api } from '@/lib/api-client';
+import { toast } from 'sonner';
 const inquirySchema = z.object({
   name: z.string().min(2, "Name required"),
   email: z.string().email("Invalid email"),
@@ -32,16 +34,30 @@ export function CartPage() {
     resolver: zodResolver(inquirySchema)
   });
   const onSubmit = async (data: InquiryForm) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Inquiry Payload:', { contact: data, items });
-    setIsSuccess(true);
-    clearCart();
+    try {
+      await api('/api/inquiries', {
+        method: 'POST',
+        body: JSON.stringify({
+          customerName: data.name,
+          email: data.email,
+          phone: data.phone,
+          eventDate: data.eventDate,
+          address: data.address,
+          items,
+          totalAmount: total
+        })
+      });
+      setIsSuccess(true);
+      clearCart();
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to submit inquiry. Please try again.');
+    }
   };
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-brand-cream flex items-center justify-center p-4">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full text-center space-y-8 bg-white p-12 rounded-3xl shadow-xl"
@@ -52,7 +68,7 @@ export function CartPage() {
           <div className="space-y-4">
             <h1 className="text-3xl font-display font-bold text-brand-slate">Inquiry Received</h1>
             <p className="text-muted-foreground leading-relaxed">
-              Your request for quote has been sent to our concierge desk. We will check item availability for your event date and contact you within 24 hours.
+              Your request for quote has been sent. We will contact you within 24 hours.
             </p>
           </div>
           <Link to="/">
@@ -67,12 +83,12 @@ export function CartPage() {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-brand-cream pt-32 pb-20 px-4">
-        <div className="max-w-md mx-auto text-center space-y-6 animate-fade-in-up">
+        <div className="max-w-md mx-auto text-center space-y-6">
           <div className="w-20 h-20 bg-brand-amber/10 text-brand-amber rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag className="w-10 h-10" />
           </div>
           <h1 className="text-3xl font-display font-bold text-brand-slate">Your Quote is Empty</h1>
-          <p className="text-muted-foreground">Add some elegant pieces to your collection to request a personalized quote.</p>
+          <p className="text-muted-foreground">Add items to request a personalized quote.</p>
           <Link to="/catalog">
             <Button className="bg-brand-slate hover:bg-brand-amber mt-4">Browse Catalog</Button>
           </Link>
@@ -85,16 +101,15 @@ export function CartPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center space-y-2">
           <h1 className="text-4xl md:text-5xl font-display font-bold text-brand-slate">Review Quote</h1>
-          <p className="text-muted-foreground italic">Request pricing and availability for your special event</p>
+          <p className="text-muted-foreground italic">Check availability for your special event</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Cart Items */}
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white rounded-2xl shadow-soft overflow-hidden">
               <AnimatePresence mode="popLayout">
                 {items.map((item) => (
-                  <motion.div 
-                    key={item.id} 
+                  <motion.div
+                    key={item.id}
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -112,18 +127,18 @@ export function CartPage() {
                           </Link>
                           <p className="text-sm text-brand-amber font-semibold">${item.price.toFixed(2)} / unit</p>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-500 hover:bg-red-50 -mt-1 -mr-1">
+                        <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                       <div className="flex items-center gap-4 mt-2">
                         <div className="flex items-center border rounded-lg px-2 py-1 bg-brand-cream/50">
-                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 font-bold hover:text-brand-amber">-</button>
+                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 font-bold">-</button>
                           <span className="px-4 text-sm font-bold w-12 text-center">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 font-bold hover:text-brand-amber">+</button>
+                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 font-bold">+</button>
                         </div>
                         <p className="text-sm font-bold text-brand-slate ml-auto">
-                          Subtotal: <span className="text-brand-slate/70">$</span>{(item.price * item.quantity).toFixed(2)}
+                          Subtotal: ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -132,57 +147,51 @@ export function CartPage() {
               </AnimatePresence>
             </div>
             <div className="bg-brand-slate text-white p-6 rounded-2xl flex justify-between items-center shadow-lg">
-              <span className="text-lg font-medium opacity-80">Estimated Rental Total</span>
+              <span className="text-lg font-medium opacity-80">Estimated Total</span>
               <span className="text-3xl font-display font-bold text-brand-amber">${total.toFixed(2)}</span>
             </div>
           </div>
-          {/* Inquiry Form */}
           <div className="lg:col-span-5">
             <Card className="border-none shadow-soft sticky top-32 overflow-hidden rounded-2xl">
               <CardHeader className="bg-brand-slate text-white p-6">
                 <CardTitle className="text-xl font-display font-bold">Event Logistics</CardTitle>
-                <p className="text-slate-400 text-xs mt-1">Check availability for your requested items</p>
               </CardHeader>
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
                     <Input id="name" {...register('name')} placeholder="Client Name" className="bg-brand-cream border-none h-11" />
-                    {errors.name && <p className="text-xs text-red-500 font-medium">{errors.name.message}</p>}
+                    {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <Input id="email" {...register('email')} type="email" placeholder="email@address.com" className="bg-brand-cream border-none h-11" />
-                      {errors.email && <p className="text-xs text-red-500 font-medium">{errors.email.message}</p>}
+                      {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone</Label>
                       <Input id="phone" {...register('phone')} type="tel" placeholder="(555) 000-0000" className="bg-brand-cream border-none h-11" />
-                      {errors.phone && <p className="text-xs text-red-500 font-medium">{errors.phone.message}</p>}
+                      {errors.phone && <p className="text-xs text-red-500">{errors.phone.message}</p>}
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label className="flex items-center gap-2"><Calendar className="w-4 h-4 text-brand-amber" /> Event Date</Label>
-                    <Input id="eventDate" {...register('eventDate')} type="date" className="bg-brand-cream border-none h-11 block w-full" />
-                    {errors.eventDate && <p className="text-xs text-red-500 font-medium">{errors.eventDate.message}</p>}
+                    <Label className="flex items-center gap-2"><Calendar className="w-4 h-4" /> Event Date</Label>
+                    <Input id="eventDate" {...register('eventDate')} type="date" className="bg-brand-cream border-none h-11" />
+                    {errors.eventDate && <p className="text-xs text-red-500">{errors.eventDate.message}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label className="flex items-center gap-2"><MapPin className="w-4 h-4 text-brand-amber" /> Delivery Venue / Address</Label>
+                    <Label className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Venue / Address</Label>
                     <Input id="address" {...register('address')} placeholder="City or Specific Venue" className="bg-brand-cream border-none h-11" />
-                    {errors.address && <p className="text-xs text-red-500 font-medium">{errors.address.message}</p>}
+                    {errors.address && <p className="text-xs text-red-500">{errors.address.message}</p>}
                   </div>
-                  <Separator className="my-6 opacity-10" />
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-brand-amber hover:bg-brand-slate transition-all h-14 text-lg font-bold gap-2 group shadow-xl"
+                    className="w-full bg-brand-amber hover:bg-brand-slate transition-all h-14 text-lg font-bold gap-2 shadow-xl"
                   >
-                    {isSubmitting ? "Processing..." : "Submit Inquiry"} <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    {isSubmitting ? "Processing..." : "Submit Inquiry"} <Send className="w-4 h-4" />
                   </Button>
-                  <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest mt-4">
-                    Availability is subject to final confirmation
-                  </p>
                 </form>
               </CardContent>
             </Card>

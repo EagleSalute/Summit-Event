@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, X, SlidersHorizontal } from 'lucide-react';
 import { PRODUCTS, CATEGORIES } from '@/lib/data';
@@ -15,19 +15,20 @@ export function CatalogPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [selectedCategory, search]);
   const filteredProducts = useMemo(() => {
+    const term = search.toLowerCase();
     return PRODUCTS.filter((p) => {
-      const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch = p.name.toLowerCase().includes(term);
       const matchesCat = selectedCategory ? p.category === selectedCategory : true;
       return matchesSearch && matchesCat;
     });
   }, [search, selectedCategory]);
-  const handleSetCategory = (cat: string | null) => {
+  const handleSetCategory = useCallback((cat: string | null) => {
     if (cat) {
       setSearchParams({ cat });
     } else {
       setSearchParams({});
     }
-  };
+  }, [setSearchParams]);
   return (
     <div className="min-h-screen bg-brand-cream pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +42,6 @@ export function CatalogPage() {
           </div>
         </header>
         <div className="flex flex-col md:flex-row gap-12">
-          {/* Desktop Filters */}
           <aside className="hidden md:block w-64 space-y-10">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-brand-slate mb-6 flex items-center gap-2">
@@ -65,15 +65,7 @@ export function CatalogPage() {
                 ))}
               </div>
             </div>
-            <div className="p-6 bg-brand-slate text-white rounded-3xl space-y-4 shadow-xl">
-              <h4 className="font-display font-bold text-xl italic">Need custom sizing?</h4>
-              <p className="text-xs text-white/70 leading-relaxed">Our designers can source bespoke pieces for large scale installations.</p>
-              <Button size="sm" variant="outline" className="w-full border-white/20 text-white hover:bg-white hover:text-brand-slate transition-colors text-xs">
-                Inquire Now
-              </Button>
-            </div>
           </aside>
-          {/* Main Content */}
           <main className="flex-1">
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <div className="relative flex-1">
@@ -88,7 +80,7 @@ export function CatalogPage() {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="md:hidden h-14 gap-2 border-none shadow-soft bg-white rounded-2xl px-6">
-                    <Filter className="w-4 h-4" /> Filter By
+                    <Filter className="w-4 h-4" /> Filter
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
@@ -119,7 +111,7 @@ export function CatalogPage() {
             </div>
             {selectedCategory && (
               <div className="mb-8 flex items-center gap-2">
-                <Badge className="bg-brand-amber hover:bg-brand-amber/90 gap-2 py-1.5 px-4 rounded-full shadow-md text-sm border-none">
+                <Badge className="bg-brand-amber hover:bg-brand-amber/90 gap-2 py-1.5 px-4 rounded-full text-sm border-none text-white">
                   {selectedCategory}
                   <X className="w-3 h-3 cursor-pointer" onClick={() => handleSetCategory(null)} />
                 </Badge>
@@ -134,9 +126,9 @@ export function CatalogPage() {
             ) : (
               <div className="text-center py-32 bg-white rounded-3xl shadow-soft">
                 <p className="text-muted-foreground text-lg mb-6 italic">No pieces found matching your criteria.</p>
-                <Button 
-                  variant="outline" 
-                  onClick={() => { setSearch(''); handleSetCategory(null); }} 
+                <Button
+                  variant="outline"
+                  onClick={() => { setSearch(''); handleSetCategory(null); }}
                   className="border-brand-amber text-brand-amber hover:bg-brand-amber hover:text-white rounded-xl"
                 >
                   Reset all filters

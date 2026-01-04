@@ -18,6 +18,7 @@ import { CartPage } from '@/pages/CartPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { ContactPage } from '@/pages/ContactPage';
+import { AdminPage } from '@/pages/AdminPage';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "cart", element: <CartPage /> },
       { path: "about", element: <AboutPage /> },
       { path: "contact", element: <ContactPage /> },
+      { path: "admin", element: <AdminPage /> },
     ]
   },
 ]);
