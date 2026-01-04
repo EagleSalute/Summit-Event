@@ -1,9 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CartItem } from '@shared/types';
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
 interface CartState {
   items: CartItem[];
-  addItem: (product: { id: string; name: string; price: number; image: string }) => void;
+  addItem: (product: any) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -33,6 +39,6 @@ export const useCartStore = create<CartState>()(
       })),
       clearCart: () => set({ items: [] }),
     }),
-    { name: 'summit-cart-storage' }
+    { name: 'aura-cart-storage' }
   )
 );

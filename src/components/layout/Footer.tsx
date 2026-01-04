@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="space-y-4">
-            <h3 className="text-2xl font-display font-bold">SUMMIT</h3>
+            <h3 className="text-2xl font-display font-bold">AURA</h3>
             <p className="text-slate-400 text-sm leading-relaxed">
               Curating unforgettable moments with premium event equipment. From luxury weddings to corporate galas.
             </p>
@@ -31,7 +31,6 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-slate-400">
               <li><Link to="/about" className="hover:text-white transition-colors">Our Story</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link to="/admin" className="hover:text-white transition-colors">Partner Portal</Link></li>
               <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
             </ul>
@@ -49,17 +48,17 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4" />
-                <span>hello@summitrentals.com</span>
+                <span>hello@auraevents.com</span>
               </li>
             </ul>
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500">
-            © {new Date().getFullYear()} Summit Event Rentals. All rights reserved.
+            © {new Date().getFullYear()} Aura Event Rentals. All rights reserved.
           </p>
           <div className="text-xs text-slate-500 flex gap-6">
-            <span>Summit Event Excellence</span>
+            <span>Designed with Elegance</span>
           </div>
         </div>
       </div>

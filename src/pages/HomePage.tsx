@@ -1,138 +1,105 @@
-// Home page of the app.
-// Currently a demo placeholder "please wait" screen.
-// Replace this file with your actual app UI. Do not delete it to use some other file as homepage. Simply replace the entire contents of this file.
-
-import { useEffect, useMemo, useState } from 'react'
-import { Sparkles } from 'lucide-react'
-
-import { ThemeToggle } from '@/components/ThemeToggle'
-import { HAS_TEMPLATE_DEMO, TemplateDemo } from '@/components/TemplateDemo'
-import { Button } from '@/components/ui/button'
-import { Toaster, toast } from '@/components/ui/sonner'
-
-function formatDuration(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Star, Shield, Clock, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ProductCard } from '@/components/ui/product-card';
+import { PRODUCTS } from '@/lib/data';
+import { motion } from 'framer-motion';
 export function HomePage() {
-  const [coins, setCoins] = useState(0)
-  const [isRunning, setIsRunning] = useState(false)
-  const [startedAt, setStartedAt] = useState<number | null>(null)
-  const [elapsedMs, setElapsedMs] = useState(0)
-
-  useEffect(() => {
-    if (!isRunning || startedAt === null) return
-
-    const t = setInterval(() => {
-      setElapsedMs(Date.now() - startedAt)
-    }, 250)
-
-    return () => clearInterval(t)
-  }, [isRunning, startedAt])
-
-  const formatted = useMemo(() => formatDuration(elapsedMs), [elapsedMs])
-
-  const onPleaseWait = () => {
-    setCoins((c) => c + 1)
-
-    if (!isRunning) {
-      // Resume from the current elapsed time
-      setStartedAt(Date.now() - elapsedMs)
-      setIsRunning(true)
-      toast.success('Building your app…', {
-        description: "Hang tight — we're setting everything up.",
-      })
-      return
-    }
-
-    setIsRunning(false)
-    toast.info('Still working…', {
-      description: 'You can come back in a moment.',
-    })
-  }
-
-  const onReset = () => {
-    setCoins(0)
-    setIsRunning(false)
-    setStartedAt(null)
-    setElapsedMs(0)
-    toast('Reset complete')
-  }
-
-  const onAddCoin = () => {
-    setCoins((c) => c + 1)
-    toast('Coin added')
-  }
-
+  const featured = PRODUCTS.slice(0, 3);
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 overflow-hidden relative">
-      <ThemeToggle />
-      <div className="absolute inset-0 bg-gradient-rainbow opacity-10 dark:opacity-20 pointer-events-none" />
-
-      <div className="text-center space-y-8 relative z-10 animate-fade-in w-full">
-        <div className="flex justify-center">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-primary floating">
-            <Sparkles className="w-8 h-8 text-white rotating" />
-          </div>
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=2000"
+            alt="Luxury Event Setup"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-slate/40" />
         </div>
-
-        <div className="space-y-3">
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-balance leading-tight">
-            Creating your <span className="text-gradient">app</span>
+        <div className="relative z-10 text-center text-white px-4 animate-fade-in-up">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-sm font-medium mb-6">
+            ESTABLISHED 2012
+          </span>
+          <h1 className="text-5xl md:text-8xl font-display font-bold mb-6 tracking-tight">
+            Elevate Every <br /> <span className="text-brand-amber italic">Occasion</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto text-pretty">
-            Your application would be ready soon.
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light">
+            Premium event rentals designed for the most discerning hosts. We bring sophistication to weddings, galas, and private celebrations.
           </p>
-        </div>
-
-        {HAS_TEMPLATE_DEMO ? (
-          <div className="max-w-5xl mx-auto text-left">
-            <TemplateDemo />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/catalog">
+              <Button size="lg" className="bg-brand-amber hover:bg-brand-amber/90 text-white px-8 h-14 text-lg">
+                View Collection
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-brand-slate px-8 h-14 text-lg">
+                Contact Concierge
+              </Button>
+            </Link>
           </div>
-        ) : (
-          <>
-            <div className="flex justify-center gap-4">
-              <Button
-                size="lg"
-                onClick={onPleaseWait}
-                className="btn-gradient px-8 py-4 text-lg font-semibold hover:-translate-y-0.5 transition-all duration-200"
-                aria-live="polite"
-              >
-                Please Wait
-              </Button>
+        </div>
+      </section>
+      {/* Featured Rentals */}
+      <section className="py-24 bg-brand-cream">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div className="space-y-4">
+              <h2 className="text-4xl font-display font-bold text-brand-slate">The Signature Collection</h2>
+              <p className="text-muted-foreground max-w-lg">
+                Discover our curated selection of high-end event pieces, from artisan tables to handcrafted seating.
+              </p>
             </div>
-
-            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-              <div>
-                Time elapsed:{' '}
-                <span className="font-medium tabular-nums text-foreground">{formatted}</span>
+            <Link to="/catalog">
+              <Button variant="ghost" className="text-brand-amber hover:text-brand-amber font-semibold gap-2">
+                Browse Full Catalog <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featured.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Trust Indicators */}
+      <section className="py-24 bg-white border-y">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
+            {[
+              { icon: Star, title: "Premium Quality", desc: "Meticulously maintained inventory" },
+              { icon: Shield, title: "Trusted Partner", desc: "Preferred by top event planners" },
+              { icon: Clock, title: "Always On Time", desc: "Precision white-glove delivery" },
+              { icon: Sparkles, title: "Unique Selection", desc: "Exclusive pieces you won't find elsewhere" }
+            ].map((item, i) => (
+              <div key={i} className="space-y-4">
+                <div className="w-12 h-12 bg-brand-amber/10 text-brand-amber rounded-xl flex items-center justify-center mx-auto">
+                  <item.icon className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-lg text-brand-slate">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
-              <div>
-                Coins:{' '}
-                <span className="font-medium tabular-nums text-foreground">{coins}</span>
-              </div>
-            </div>
-
-            <div className="flex justify-center gap-2">
-              <Button variant="outline" size="sm" onClick={onReset}>
-                Reset
-              </Button>
-              <Button variant="outline" size="sm" onClick={onAddCoin}>
-                Add Coin
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
-
-      <footer className="absolute bottom-8 text-center text-muted-foreground/80">
-        <p>Powered by Cloudflare</p>
-      </footer>
-
-      <Toaster richColors closeButton />
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Testimonials */}
+      <section className="py-24 bg-brand-slate text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 p-12 opacity-10">
+          <Sparkles className="w-64 h-64" />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-display italic mb-12">"Aura transformed our backyard into a luxury venue. Their attention to detail and quality of rentals is unmatched in the industry."</h2>
+          <div className="space-y-1">
+            <p className="font-bold text-lg">Sarah & Michael Jensen</p>
+            <p className="text-brand-amber text-sm tracking-widest uppercase">September 2023 Wedding</p>
+          </div>
+        </div>
+      </section>
     </div>
-  )
+  );
 }
