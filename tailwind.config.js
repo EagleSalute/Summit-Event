@@ -71,6 +71,12 @@ export default {
           cream: '#f8fafc'
         }
   		},
+  		shadows: {
+        soft: '0 4px 14px 0 rgb(0 0 0 / 8%), 0 2px 4px 0 rgb(0 0 0 / 3%)',
+        glass: '0 0 1px hsl(0 0% 0% / 0.1), 0 25px 50px -12px hsl(0 0% 0% / 0.1)',
+        glow: '0 0 25px hsl(var(--primary) / 0.3)',
+        primary: '0 0 0 1px hsl(var(--primary))'
+      },
   		keyframes: {
   			'fade-in-up': {
   				'0%': {
@@ -81,10 +87,19 @@ export default {
   					opacity: '1',
   					transform: 'translateY(0)'
   				}
+  			},
+  			shimmer: {
+  				'0%': {
+  					transform: 'translateX(-100%)'
+  				},
+  				'100%': {
+  					transform: 'translateX(100%)'
+  				}
   			}
   		},
   		animation: {
-  			'fade-in-up': 'fade-in-up 0.8s ease-out'
+  			'fade-in-up': 'fade-in-up 0.8s ease-out',
+  			shimmer: 'shimmer 2s linear infinite'
   		}
   	}
   },
