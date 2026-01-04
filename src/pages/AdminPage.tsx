@@ -41,8 +41,8 @@ export function AdminPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-12 md:py-16">
         <header className="mb-12">
-          <h1 className="text-4xl font-display font-bold text-brand-slate">Concierge Dashboard</h1>
-          <p className="text-muted-foreground mt-2">Manage rental inquiries and communications.</p>
+          <h1 className="text-4xl font-display font-bold text-brand-slate">Summit Concierge Dashboard</h1>
+          <p className="text-muted-foreground mt-2">Manage rental inquiries and Summit client communications.</p>
         </header>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Card className="border-none shadow-soft bg-white">

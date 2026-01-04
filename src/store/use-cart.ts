@@ -33,6 +33,6 @@ export const useCartStore = create<CartState>()(
       })),
       clearCart: () => set({ items: [] }),
     }),
-    { name: 'aura-cart-storage' }
+    { name: 'summit-cart-storage' }
   )
 );

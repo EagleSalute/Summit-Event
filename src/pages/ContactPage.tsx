@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,7 +28,7 @@ export function ContactPage() {
         body: JSON.stringify(data)
       });
       toast.success('Message Sent!', {
-        description: "A concierge member will reach out to you shortly."
+        description: "A Summit concierge member will reach out to you shortly."
       });
       reset();
     } catch (err) {
@@ -41,7 +41,7 @@ export function ContactPage() {
       <div className="py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-brand-slate">Get in <span className="italic text-brand-amber">Touch</span></h1>
-          <p className="text-lg text-muted-foreground">Our concierge team is here to help you select the perfect pieces.</p>
+          <p className="text-lg text-muted-foreground">Our concierge team is here to help you select the perfect pieces for your event.</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-7">
@@ -76,7 +76,7 @@ export function ContactPage() {
           <div className="lg:col-span-5 space-y-8">
             <Card className="border-none shadow-soft overflow-hidden">
               <CardContent className="p-8 space-y-8">
-                <h3 className="text-2xl font-display font-bold text-brand-slate">Concierge Desk</h3>
+                <h3 className="text-2xl font-display font-bold text-brand-slate">Summit Concierge Desk</h3>
                 <div className="space-y-6">
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-xl bg-brand-amber/10 flex items-center justify-center shrink-0">
@@ -93,7 +93,7 @@ export function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1">Email</p>
-                      <p className="text-lg font-semibold text-brand-slate">concierge@auraevents.com</p>
+                      <p className="text-lg font-semibold text-brand-slate">concierge@summitrentals.com</p>
                     </div>
                   </div>
                 </div>

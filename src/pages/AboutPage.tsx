@@ -10,7 +10,7 @@ export function AboutPage() {
               Crafting <span className="italic text-brand-amber">Atmospheres</span> Since 2012
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              At Aura Event Rentals, we believe that the backdrop of your most important moments should be as extraordinary as the moments themselves.
+              At Summit Event Rentals, we believe that the backdrop of your most important moments should be as extraordinary as the moments themselves.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Founded in the heart of Los Angeles by a team of designers and event planners, we set out to bridge the gap between "standard rental gear" and "curated luxury furniture."
@@ -28,9 +28,9 @@ export function AboutPage() {
           </div>
           <div className="relative">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl relative z-10">
-              <img 
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800" 
-                alt="Our Founder" 
+              <img
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800"
+                alt="Summit Event Rentals Story"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -50,7 +50,7 @@ export function AboutPage() {
             <div className="w-16 h-16 bg-brand-cream rounded-full flex items-center justify-center mx-auto text-brand-amber">
               <Users className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-bold">Unmatched Service</h3>
+            <h3 className="text-xl font-bold">Summit Service</h3>
             <p className="text-muted-foreground text-sm">Our concierge team works alongside you to ensure your vision comes to life perfectly.</p>
           </div>
           <div className="space-y-4">

@@ -31,12 +31,12 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2" aria-label="Summit Home">
             <span className={cn(
               "text-2xl font-display font-bold tracking-tight",
               !isScrolled && location.pathname === '/' ? "text-white" : "text-brand-slate"
             )}>
-              AURA
+              SUMMIT
             </span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
@@ -53,7 +53,7 @@ export function Navbar() {
               </Link>
             ))}
             <Link to="/cart">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative" aria-label="View Quote">
                 <ShoppingBag className={cn(
                   "h-5 w-5",
                   !isScrolled && location.pathname === '/' ? "text-white" : "text-brand-slate"
@@ -79,6 +79,7 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
             >
               {isMobileMenuOpen ? (
                 <X className={cn(!isScrolled && location.pathname === '/' ? "text-white" : "text-brand-slate")} />

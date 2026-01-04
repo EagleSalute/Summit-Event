@@ -15,7 +15,7 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     addItem(product);
-    toast.success(`${product.name} added to inquiry`);
+    toast.success(`${product.name} added to Summit quote`);
   };
   return (
     <Link to={`/catalog/${product.id}`} className="block group">
