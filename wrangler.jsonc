@@ -4,7 +4,7 @@
  */
  {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "aura-event-rentals-yuaq6vwbd1ha0idq2zch3",
+	"name": "summitevent",
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-04-24",
 	"assets": {
