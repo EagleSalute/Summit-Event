@@ -16,6 +16,8 @@ import { HomePage } from '@/pages/HomePage';
 import { CatalogPage } from '@/pages/CatalogPage';
 import { CartPage } from '@/pages/CartPage';
 import { AboutPage } from '@/pages/AboutPage';
+import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
+import { ContactPage } from '@/pages/ContactPage';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -25,9 +27,10 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "catalog", element: <CatalogPage /> },
+      { path: "catalog/:id", element: <ProductDetailsPage /> },
       { path: "cart", element: <CartPage /> },
       { path: "about", element: <AboutPage /> },
-      { path: "contact", element: <div className="pt-32 pb-20 text-center">Contact Page coming soon</div> },
+      { path: "contact", element: <ContactPage /> },
     ]
   },
 ]);
